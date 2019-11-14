@@ -2,7 +2,6 @@ import pandas as pd
 from pathlib import Path 
 from sklearn.feature_selection import (mutual_info_regression, SelectKBest, 
                                        SelectPercentile, VarianceThreshold)
-from sklearn.model_selection import GridSearchCV
 
 class Processing:
     def __init__(self, **params):
@@ -46,7 +45,7 @@ class Processing:
         if verbose:
             self.put_log("Processed featured")
     
-    def pickup_features(self, y_train, choice=("percent", 10), verbose=0):
+    def pickup_MI_features(self, y_train, choice=("percent", 10), verbose=0):
         if verbose:
             self.put_log("Origin featured")
         MI = mutual_info_regression(self.result_X_train, y_train)
@@ -65,16 +64,7 @@ class Processing:
         self.result_X_test = self.result_X_test.loc[:, pick_sel.get_support()]
         if verbose:
             self.put_log("Processed featured")
-            
-    def grid_search(self, model, data, label, params, CV=5):
-        gs = GridSearchCV(
-            model,
-            params,
-            cv=CV
-        )
-        gs.fit(data, label)
-        print(gs.best_score_)
-        print(gs.best_params_)
+
 
 if __name__ == "__main__":
     p = Processing()
