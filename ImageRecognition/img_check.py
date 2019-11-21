@@ -25,28 +25,41 @@ class ImgCheck:
                                                          ir_path.glob('*.png'), 
                                                          ir_path.glob('*.bmp'))]
         
-    def mk_img_tree(self, imgs_root=None):
-        if not imgs_root:
-            imgs_root = self.root_path
-        ir_path = Path(imgs_root)
+    def mk_img_tree(self, data_root=None):
+        '''Return the list of image roots
+        # Arguments
+        data_root:      input path for data
+        # Returns
+        The list of image roots
+        '''
+        if not data_root:
+            data_root = self.root_path
+        dr_path = Path(data_root)
         img_tree_list = []
-        if self.mk_img_list(ir_path):
-            img_tree_list.append(ir_path)
+        if self.mk_img_list(dr_path):
+            img_tree_list.append(dr_path)
         else:
-            for ir in ir_path.glob("*"):
-                img_tree_list.extend(self.mk_img_tree(ir))
+            for dr in dr_path.glob("*"):
+                img_tree_list.extend(self.mk_img_tree(dr))
         return img_tree_list
 
-        
-    def rec_pick_imgs(self, imgs_root=None):
-        img_tree = self.mk_img_tree(imgs_root)
-        result = {}
-        for it in img_tree:
-            ip_list = self.mk_img_list(it)
+    def rec_random_pick_imgs(self, data_root=None):
+        '''Pick images randomly from data_root
+        # Arguments
+        data_root:      the root of data which wanted to show image
+        # Returns
+        imgs_dict:      the dictionary which has 
+                            Key:    the image path
+                            Value:  image
+        '''
+        data_tree = self.mk_img_tree(data_root)
+        imgs_dict = {}
+        for dt in data_tree:
+            ip_list = self.mk_img_list(dt)
             ip_len = len(ip_list)
             ip_img = imread(ip_list[np.random.randint(ip_len)])
-            result[it] = ip_img
-        return result
+            imgs_dict[dt] = ip_img
+        return imgs_dict
             
     
 if __name__ == "__main__":
@@ -57,3 +70,5 @@ if __name__ == "__main__":
     
     for tr in tree_result:
         print(ic.mk_img_list(tr))
+        
+    print(ic.rec_random_pick_imgs(data_root_path))
