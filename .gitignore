@@ -8,3 +8,4 @@ share/
 .DS_Store
 .Python
 pip-selfcheck.json
+.ipynb_checkpoints
