@@ -9,10 +9,7 @@ class Setting:
             logger_name = "tmp_logger.txt"
         # Set Logger
         logger = getLogger(__name__)
-        handler = StreamHandler()
-        handler.setLevel(logger_level)
-        handler2 = FileHandler(filename=logger_name)
-        handler2.setLevel(logger_level)
+        handler = FileHandler(filename=logger_name)
         logger.setLevel(logger_level)
         logger.addHandler(handler)
         logger.propagate = False
@@ -23,3 +20,4 @@ if __name__ == "__main__":
     setting = Setting()
     tmp_log = setting.set_logger(logger_name="exec_setting.txt")
     tmp_log.info("Finished executing setting.py")
+    print(tmp_log.handlers[0].baseFilename)
