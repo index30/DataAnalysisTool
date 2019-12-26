@@ -1,8 +1,6 @@
 ## Image Processing
 主なツール
-```
-img_check.py
-```
+- 画像の確認、画像の持つ性質の調査: `img_check.py`
 
 テスト
 ```

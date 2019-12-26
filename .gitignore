@@ -4,6 +4,7 @@ etc/
 lib/
 include/
 share/
+.vscode/
 
 .DS_Store
 .Python
