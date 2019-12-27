@@ -1,4 +1,5 @@
 import itertools
+import json
 from pathlib import Path
 
 
@@ -15,3 +16,12 @@ def mk_img_list(imgs_root):
                                                      ir_path.glob('*.JPG'),
                                                      ir_path.glob('*.png'),
                                                      ir_path.glob('*.bmp'))]
+
+def fetch_json_data(json_path):
+    '''Fetch the data of json
+    # Arguments
+    json_path:      input path for fetching json path
+    '''
+    with open(Path(json_path).as_posix(), 'r') as json_file:
+        data = json.load(json_file)
+    return data
