@@ -84,14 +84,17 @@ class ImgCheck:
             # Get string "AAAA_(train/test)_(images/annotations)"
             img_rootname_list  = img_key.parent.stem.split("_")
             # Convert (train/test)_images to (train/test)_annotations
-            anno_root_name = img_rootname_list[-2] + "_annotations"
+            anno_root_name = "_".join(img_rootname_list[:-1]) + "_annotations"
             # If you input anno path, this method refer to it
             if not anno_root:
                 anno_root = img_key.parents[1]
-            anno_path = list(anno_root.glob("*{0}/{1}*".format(anno_root_name, 
-                                                               img_key.stem)))[0]
-            img_anno_dicts["img_anno{}".format(i)] = {"img_path": img_key,
-                                                      "anno_path": anno_path}
+            print(anno_root_name)
+            anno_list = list(anno_root.glob("{0}/{1}*".format(anno_root_name, 
+                                                               img_key.stem)))
+            if anno_list:
+                anno_path = anno_list[0]
+                img_anno_dicts["img_anno{}".format(i)] = {"img_path": img_key,
+                                                          "anno_path": anno_path}
         return img_anno_dicts
         
         
