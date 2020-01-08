@@ -61,11 +61,13 @@ class ImgCheck:
             imgs_dict[img_path] = ip_img
         return imgs_dict
     
-    def rec_random_pick_annotations(self, data_root=None, anno_root=None):
+    def rec_random_pick_annotations(self, data_root=None, anno_root=None,
+                                    anno_ext=""):
         '''
         # Arguments
         data_root:      the root of data which wanted to show image
         anno_root:      the root of data which wanted to show annotation
+        anno_ext:       the extension for annotation
         
         # Return
         img_anno_dicts: the dicts which have image and annotation path
@@ -84,13 +86,18 @@ class ImgCheck:
             # Get string "AAAA_(train/test)_(images/annotations)"
             img_rootname_list  = img_key.parent.stem.split("_")
             # Convert (train/test)_images to (train/test)_annotations
-            anno_root_name = "_".join(img_rootname_list[:-1]) + "_annotations"
+            annotation_symbol = "_annotations"
+            if len(img_rootname_list) > 1:
+                anno_root_name = "_".join(img_rootname_list[:-1]) + annotation_symbol
+            else:
+                anno_root_name = img_rootname_list[0] + annotation_symbol
             # If you input anno path, this method refer to it
             if not anno_root:
                 anno_root = img_key.parents[1]
-            print(anno_root_name)
-            anno_list = list(anno_root.glob("{0}/{1}*".format(anno_root_name, 
-                                                               img_key.stem)))
+
+            anno_list = list(anno_root.glob("{0}/{1}*{2}".format(anno_root_name, 
+                                                               img_key.stem,
+                                                               anno_ext)))
             if anno_list:
                 anno_path = anno_list[0]
                 img_anno_dicts["img_anno{}".format(i)] = {"img_path": img_key,
@@ -105,3 +112,5 @@ if __name__ == "__main__":
     print(tree_result)
     
     print(ic.rec_random_pick_imgs(data_root_path))
+    
+    print(ic.rec_random_pick_annotations(anno_ext=".xml"))
