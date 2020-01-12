@@ -26,8 +26,11 @@ class TestImgCheck(unittest.TestCase):
             self.assertIn(Path(img_key).suffix[1:], self.img_suffix)
         
     def test_rec_random_pick_annotations(self):
-        # TODO: Set annotations
-        pass
+        img_anno_dicts = self.ic.rec_random_pick_annotations()
+        for img_anno_dict in list(img_anno_dicts.values()):
+            img_path = img_anno_dict["img_path"]
+            anno_path = img_anno_dict["anno_path"]
+            self.assertEqual(img_path.stem, anno_path.stem)
 
 
 if __name__ == "__main__":
