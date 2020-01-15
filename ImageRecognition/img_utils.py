@@ -47,6 +47,17 @@ def fetch_xml_data(xml_path):
     xml_tree = ET.parse(Path(xml_path).as_posix())
     return xml_tree
 
+def fetch_classes(classes_path):
+    '''Fetch the list of classes from classes file
+    # Argument
+    classes_path:       the Path of classes file
+    # Return
+    classes_list:       the list of classes
+    '''
+    with open(Path(classes_path).as_posix()) as f:
+        classes_list = [c.strip() for c in f.readlines()]
+    return classes_list
+
 def select_univ_clr(src_target_category):
     '''Return color list correspond to UNIV_CLR_LIST
     # Argument
