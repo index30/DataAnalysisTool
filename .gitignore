@@ -8,5 +8,6 @@ share/
 
 .DS_Store
 .Python
+pyvenv.cfg
 pip-selfcheck.json
 .ipynb_checkpoints
